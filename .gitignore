@@ -1,3 +1,5 @@
 *.png
 googletest
 Makefile
+*.o
+*.a
