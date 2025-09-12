@@ -1,5 +1,5 @@
 #TODO: Set your googletest directory path
-GTEST_DIR = /Users/chu-ilhyeon/OOD25/googletest/googletest
+GTEST_DIR = /Users/chu-ilhyeon/OOD25/googletest
 
 CC = clang++
 CPPFLAGS += -isystem $(GTEST_DIR)/include
