@@ -30,6 +30,7 @@ class IntSetTest : public ::testing::Test {
   std::function<int(int)> Add10 = [](int i) { return i + 10; };
   std::function<int(int)> Double = [](int i) { return i * 2; };
   std::function<int(int)> Sub3 = [](int i) { return i - 3; };
+  std::function<int(int)> Mul0 = [](int i) { return i * 0; };
 
  protected:
   void SetUp() override {
@@ -68,7 +69,9 @@ TEST_F(IntSetTest, CapacityTest3) {
   intset_.Add(5);
   intset_.Add(6);
   intset_.Add(7);
-  ASSERT_DEATH(intset_.Add(13), "Exceeded capacity");
+  intset_.Add(14);
+  EXPECT_EQ(intset_.size(), 7);
+  EXPECT_EQ(intset_.capacity(), 10);
 }
 
 TEST_F(IntSetTest, SizeTest1) { EXPECT_EQ(intset_.size(), 3); }
@@ -149,3 +152,68 @@ TEST_F(IntSetTest, ForAllTest3) {
   intset_.Map(Add10);
   EXPECT_TRUE(intset_.ForAll(Gt10));
 }
+
+// 수정한 부분 destructor, operator(overloading), Add, Map
+TEST_F(IntSetTest, NewMapTest1) {
+  intset_.Map(Mul0);
+  EXPECT_EQ(intset_.size(), 1);
+  EXPECT_EQ(intset_.elements()[2], 0);
+}
+
+TEST_F(IntSetTest, NewAddTest1) {
+  intset_.Add(24);
+  EXPECT_EQ(intset_.size(), 4);
+}
+
+TEST_F(IntSetTest, NewAddTest2) {
+  intset_.Add(24);
+  intset_.Add(55);
+  intset_.Add(37);
+  intset_.Add(56);
+  EXPECT_EQ(intset_.size(), 7);
+  EXPECT_EQ(intset_.capacity(), 10);
+}
+
+TEST_F(IntSetTest, NewAddTest3) {
+  intset_.Add(24);
+  intset_.Add(55);
+  intset_.Add(37);
+  intset_.Add(56);
+  intset_.Add(197);
+  EXPECT_EQ(intset_.size(), 8);
+  EXPECT_EQ(intset_.capacity(), 10);
+}
+
+TEST_F(IntSetTest, NewAddSetTest1) {
+  intset_.Add(addset_);
+  EXPECT_EQ(intset_.capacity(), 6);
+  EXPECT_EQ(intset_.size(), 5);
+}
+
+TEST_F(IntSetTest, NewAddSetTest2) {
+  intset_.Add(24);
+  intset_.Add(55);
+  intset_.Add(37);
+  intset_.Add(addset_);
+  EXPECT_EQ(intset_.size(), 8);
+  EXPECT_EQ(intset_.capacity(), 10);
+}
+
+TEST_F(IntSetTest, NewAddSetTest3) {
+  intset_.Add(24);
+  intset_.Add(55);
+  intset_.Add(37);
+  intset_.Add(56);
+  intset_.Add(68);
+  intset_.Add(addset_);
+  intset_.Add(addset_);
+  addset_.Add(106);
+  EXPECT_EQ(intset_.size(), 10);
+  EXPECT_EQ(intset_.capacity(), 10);
+}
+
+TEST_F(IntSetTest, OpTest1) { EXPECT_EQ(intset_[2], 12); }
+
+TEST_F(IntSetTest, OpTest2) { ASSERT_DEATH(intset_[4], "Out of bound"); }
+
+TEST_F(IntSetTest, OpTest3) { ASSERT_DEATH(intset_[-3], "Out of bound"); }
