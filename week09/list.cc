@@ -34,8 +34,8 @@ List::~List() {
 }
 
 void List::operator=(const List& list) {
-  Elem* currentElem;
-  Elem* nextElem;
+  Elem* currentElem = nullptr;
+  Elem* nextElem = nullptr;
   if (this->head != nullptr) {
     currentElem = this->head;
     nextElem = this->head->next;
@@ -51,9 +51,9 @@ void List::operator=(const List& list) {
   if (list.IsEmpty()) {
     this->size_ = 0;
     return;
-  } else {
-    this->size_ = list.size();
   }
+  this->size_ = list.size();
+
   currentElem = this->head;
   nextElem = list.head->next;
 
@@ -129,4 +129,4 @@ int& List::At(int index) {
   return indexElem->value;
 }
 
-bool List::IsEmpty() const { return !this->size(); }
+bool List::IsEmpty() const { return this->size() == 0; }

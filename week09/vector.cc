@@ -33,7 +33,7 @@ void Vector::operator=(const Vector& vector) {
 }
 
 int& Vector::operator[](const int index) {
-  assert(index < this->size_ && "Out of Bound");
+  assert((0 <= index && index < this->size_) && "Out of Bound");
 
   return this->elements_[index];
 }
@@ -62,7 +62,6 @@ void Vector::PushBack(int elem) {
 void Vector::PopBack() {
   assert(this->size_ != 0 && "Out of Bound");
   this->size_ -= 1;
-  // this->elements_[size] = nullptr; 쓰레기값? 아니면 초기화?
 }
 
-bool Vector::IsEmpty() const { return !this->size_; }
+bool Vector::IsEmpty() const { return this->size_ == 0; }

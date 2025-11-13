@@ -4,7 +4,7 @@
 
 #include "list.h"
 
-Queue::Queue() : List() {}
+Queue::Queue() {}
 
 Queue::Queue(const Queue& queue) : List(queue) {}
 
@@ -20,4 +20,4 @@ int Queue::Poll() {
   return returnInt;
 }
 
-bool Queue::IsEmpty() const { return !this->size(); }
+bool Queue::IsEmpty() const { return this->size() == 0; }

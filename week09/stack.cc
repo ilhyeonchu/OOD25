@@ -18,10 +18,9 @@ std::size_t Stack::capacity() const { return Vector::capacity(); }
 void Stack::Push(int elem) { PushBack(elem); }
 
 int Stack::Pop() {
-  assert(!IsEmpty() && "Out of Bound");
-  int popInt = operator[](size() - 1);
+  int popInt = Vector::operator[]((int)this->size() - 1);
   PopBack();
   return popInt;
 }
 
-bool Stack::IsEmpty() const { return !this->size(); }
+bool Stack::IsEmpty() const { return this->size() == 0; }

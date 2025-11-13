@@ -121,7 +121,6 @@ TEST_F(STLTest, StackTest1) {
 }
 
 TEST_F(STLTest, StackTest2) {
-  int i = 0;
   Stack stack2(0);
   stack2 = *stack;
   stack2.Push(1);
