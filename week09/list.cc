@@ -6,7 +6,7 @@
 List::List() : size_(0), head(nullptr) {}
 
 List::List(const List& list) : size_(list.size_), head(nullptr) {
-  if (list.head == nullptr) {
+  if (list.IsEmpty()) {
     return;
   }
   Elem* currentElem = this->head;
@@ -20,40 +20,34 @@ List::List(const List& list) : size_(list.size_), head(nullptr) {
 }
 
 List::~List() {
-  if (this->head == nullptr) {
-    return;
+  // if (this->head == nullptr) {
+  //   return;
+  // }
+  // Elem* currentElem = this->head;
+  // Elem* nextElem = currentElem->next;
+  // while (nextElem != nullptr) {
+  //   delete currentElem;
+  //   currentElem = nextElem;
+  //   nextElem = nextElem->next;
+  // }
+  // delete currentElem;
+  while (this->size() != 0) {
+    this->PopFront();
   }
-  Elem* currentElem = this->head;
-  Elem* nextElem = currentElem->next;
-  while (nextElem != nullptr) {
-    delete currentElem;
-    currentElem = nextElem;
-    nextElem = nextElem->next;
-  }
-  delete currentElem;
 }
 
 void List::operator=(const List& list) {
   Elem* currentElem = nullptr;
   Elem* nextElem = nullptr;
-  if (this->head != nullptr) {
-    currentElem = this->head;
-    nextElem = this->head->next;
-
-    while (nextElem != nullptr) {
-      delete currentElem;
-      currentElem = nextElem;
-      nextElem = currentElem->next;
-    }
-    delete currentElem;
+  while (this->head != nullptr) {
+    this->PopFront();
   }
 
   if (list.IsEmpty()) {
-    this->size_ = 0;
     return;
   }
-  this->size_ = list.size();
 
+  this->head = list.head;
   currentElem = this->head;
   nextElem = list.head->next;
 
@@ -67,8 +61,9 @@ void List::operator=(const List& list) {
 std::size_t List::size() const { return this->size_; }
 
 void List::PushBack(int elem) {
+  Elem* newElem = new Elem{elem, nullptr};
   if (this->head == nullptr) {
-    this->head = new Elem{elem, nullptr};
+    this->head = newElem;
     this->size_++;
     return;
   }
@@ -79,39 +74,32 @@ void List::PushBack(int elem) {
     currentElem = currentElem->next;
   }
 
-  currentElem->next = new Elem{elem, nullptr};
+  currentElem->next = newElem;
   this->size_++;
 }
 
 void List::PushFront(int elem) {
-  if (this->head == nullptr) {
-    this->head = new Elem{elem, nullptr};
-    this->size_++;
-    return;
-  }
-
   Elem* newElem = new Elem{elem, this->head};
   this->head = newElem;
   this->size_++;
 }
 
 void List::PopBack() {
-  assert(this->size_ != 0 && "Out of Bound");
+  assert(!this->IsEmpty() && "Out of Bound");
   Elem* previousElem = this->head;
   Elem* currentElem = previousElem->next;
 
-  while (currentElem->next != nullptr) {
+  while (currentElem != nullptr) {
     previousElem = currentElem;
     currentElem = currentElem->next;
   }
 
-  delete currentElem;
-  previousElem->next = nullptr;
+  delete previousElem;
   this->size_--;
 }
 
 void List::PopFront() {
-  assert(this->size_ != 0 && "Out of Bound");
+  assert(!this->IsEmpty() && "Out of Bound");
   Elem* nextElem = this->head->next;
   delete this->head;
   this->head = nextElem;
@@ -125,7 +113,6 @@ int& List::At(int index) {
   for (int i = 0; i < index; i++) {
     indexElem = indexElem->next;
   }
-
   return indexElem->value;
 }
 

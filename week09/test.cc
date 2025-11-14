@@ -72,6 +72,7 @@ TEST_F(STLTest, VectorTest5) {
 
 TEST_F(STLTest, ListTest1) {
   list->PushBack(3);
+  EXPECT_EQ(list->At(0), 3);
   list->PushFront(1);
   EXPECT_EQ(list->size(), 2);
   EXPECT_EQ(list->At(0), 1);
@@ -92,6 +93,9 @@ TEST_F(STLTest, ListTest3) {
   list->PushBack(4);
   list->PushBack(5);
   list->PushBack(6);
+  EXPECT_EQ(list->At(5), 6);
+  EXPECT_EQ(list->At(1), 2);
+  EXPECT_EQ(list->At(0), 1);
   EXPECT_EQ(list->size(), 6);
   ASSERT_DEATH(list->At(7), "Out of Bound");
 }
@@ -112,6 +116,16 @@ TEST_F(STLTest, ListTest4) {
 TEST_F(STLTest, ListTest5) {
   EXPECT_TRUE(list->IsEmpty());
   ASSERT_DEATH(list->PopBack(), "Out of Bound");
+}
+
+TEST_F(STLTest, ListTest6) {
+  list->PushBack(3);
+  EXPECT_EQ(list->At(0), 3);
+  list->PopBack();
+  EXPECT_EQ(list->size(), 0);
+  list->PushFront(1);
+  list->PopFront();
+  ASSERT_DEATH(list->PopFront(), "Out of Bound");
 }
 
 TEST_F(STLTest, StackTest1) {
