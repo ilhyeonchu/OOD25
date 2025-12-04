@@ -26,7 +26,7 @@ void vectorTest1() {
 
   vector1.PopBack();
 }
-
+/*
 void SafeIntExample() {
   const int kMax = std::numeric_limits<int>::max();
   const int kMin = std::numeric_limits<int>::min();
@@ -52,8 +52,9 @@ void SafeIntExample() {
     std::cout << e.what() << std::endl;
   }
 }
+*/
 
 int main() {
   // vectorTest1();
-  SafeIntExample();
+  // SafeIntExample();
 }

@@ -3,6 +3,6 @@
 #include <stdexcept>
 #include <string>
 
-DivideByZeroException::DivideByZeroException(const char* operation)
+DivideByZeroException::DivideByZeroException(const char* what)
     : std::runtime_error("Divide-by-zero exception occurs in " +
-                         std::string(operation)) {}
+                         std::string(what)) {}

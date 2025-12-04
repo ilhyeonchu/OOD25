@@ -102,6 +102,11 @@ class List {
       currentElem = currentElem->next;
     }
 
+    if (previousElem == currentElem) {
+      this->head = nullptr;
+    } else {
+      previousElem->next = nullptr;
+    }
     delete currentElem;
     this->size_--;
   };
